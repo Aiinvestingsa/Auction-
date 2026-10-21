@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a0a0a">
+<title>PHUZA AUCTION | Level Up Notify</title>
+<style>
+:root{--bg:#090909;--panel:#151515;--panel2:#101010;--line:#303030;--orange:#ff6b00;--gold:#ffcc00;--green:#22dd55;--purple:#b45cff;--cyan:#00e5ff;--red:#ff3535;--muted:#aaa}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#fff;font:15px/1.45 Arial,Helvetica,sans-serif;padding-bottom:85px}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:9px;padding:11px 13px;font-weight:800;transition:.15s}button:active{transform:scale(.98)}
+.btn{background:var(--orange);color:#fff}.btn.green{background:var(--green);color:#001500}.btn.purple{background:var(--purple);color:#160021}.btn.red{background:var(--red);color:#fff}.btn.cyan{background:var(--cyan);color:#001015}.btn.dark{background:#242424;color:#fff;border:1px solid #444}.btn.gold{background:var(--gold);color:#171000}.btn.sm{padding:7px 9px;font-size:12px}.btn.full{width:100%;margin-top:7px}
+header{position:sticky;top:0;z-index:30;background:linear-gradient(90deg,#000,#200900);border-bottom:3px solid var(--orange);padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.logo{font-weight:1000;color:var(--orange);letter-spacing:.4px;font-size:18px}.headerstats{font-size:11px;color:#ddd;text-align:right}
+main{max-width:1050px;margin:auto;padding:12px}.view{display:none}.view.active{display:block}
+h1,h2,h3,h4,p{margin-top:0}h1{font-size:24px}h2{font-size:20px}h3{font-size:16px}h4{font-size:14px}
+.muted,.small{color:var(--muted)}.small{font-size:12px}.tiny{font-size:10px;color:#aaa}
+.card{background:var(--panel);border:1px solid #2c2c2c;border-radius:14px;padding:14px;margin:10px 0;min-width:0}
+.hero{padding:20px 16px;text-align:center;border:1px solid #5b2800;background:radial-gradient(ellipse at top,#321300,#111 70%);border-radius:16px;margin:8px 0 14px}
+.hero h1{color:var(--orange);font-size:clamp(23px,5vw,36px);margin-bottom:7px}.hero p{max-width:650px;margin:0 auto 14px;color:#ddd}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.stat{background:#090909;border:1px solid #333;border-radius:12px;padding:10px;text-align:center}.stat b{display:block;font-size:19px;color:var(--orange)}.stat span{font-size:11px;color:#aaa}
+.portal{padding:17px;border-radius:14px;background:#141414;border:2px solid var(--orange);text-align:center}.portal.seller{border-color:var(--cyan)}.portal.admin{border-style:dashed;border-color:#555}
+input,select,textarea{width:100%;padding:11px;margin:5px 0;background:#050505;color:#fff;border:1px solid #444;border-radius:8px;min-width:0}label{display:block;font-size:12px;color:#ccc;font-weight:700;margin-top:8px}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1;min-width:0}.between{display:flex;justify-content:space-between;gap:8px;align-items:center}.wrap{flex-wrap:wrap}
+.pill{display:inline-block;padding:4px 8px;background:#292929;border-radius:99px;font-size:11px;color:#ddd}.pill.orange{background:#4b2100;color:#ffb77d}.pill.green{background:#00300c;color:#7dff98}.pill.purple{background:#28003f;color:#d8a1ff}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:16px 0 8px}.section-title h2{margin:0}
+.bottles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.bottle{border:1px solid #333;background:#131313;border-radius:13px;padding:10px}.bottle-art{height:105px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,#241000,#080808);border:1px solid #442300;margin-bottom:9px}
+.bid-list,.history{max-height:180px;overflow:auto;background:#080808;border:1px solid #292929;border-radius:8px;padding:8px}.listrow{display:flex;justify-content:space-between;gap:8px;padding:7px 2px;border-bottom:1px solid #222;font-size:12px}.listrow:last-child{border-bottom:0}
+.levelbar{display:flex;gap:4px;margin:10px 0}.segment{height:9px;flex:1;background:#333;border-radius:6px}.segment.on{background:var(--orange)}.segment.current{background:var(--purple);outline:1px solid #fff}
+.leader-row{display:flex;justify-content:space-between;align-items:center;gap:8px;background:#080808;border-left:4px solid #777;border-radius:8px;padding:10px;margin:6px 0}.leader-row:nth-child(1){border-left-color:#ffd700}.leader-row:nth-child(2){border-left-color:#c0c0c0}.leader-row:nth-child(3){border-left-color:#cd7f32}
+.wallet{background:linear-gradient(135deg,#00210a,#080808);border:2px solid #168d32}.refbox{background:linear-gradient(135deg,#1d0032,#090909);border:2px solid var(--purple)}.leaderbox{background:linear-gradient(135deg,#302500,#090909);border:2px solid #a88b00}
+.notice{padding:10px;border:1px solid #594100;background:#201800;color:#ffdf79;border-radius:9px;font-size:12px;margin:8px 0}.notice.red{border-color:#702020;background:#230808;color:#ffb5b5}
+nav.bottom{position:fixed;bottom:0;left:0;right:0;z-index:40;display:grid;grid-template-columns:repeat(5,1fr);background:#080808;border-top:1px solid #333;padding:6px 3px calc(6px + env(safe-area-inset-bottom))}
+nav.bottom button{background:transparent;color:#aaa;border-radius:8px;padding:7px 1px;font-size:10px}nav.bottom button.active{color:var(--orange);background:#241000}
+.overlay{display:none;position:fixed;inset:0;z-index:100;background:#000e;align-items:center;justify-content:center;padding:15px}.overlay.show{display:flex}.modal{max-width:430px;width:100%;background:#170b22;border:2px solid var(--purple);border-radius:18px;padding:20px;text-align:center;box-shadow:0 0 28px #7d22b5}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:150;background:#222;border:1px solid #555;border-radius:10px;padding:12px 16px;display:none;max-width:90%;font-size:13px}.toast.show{display:block}
+hr{border:0;border-top:1px solid #303030;margin:14px 0}.hidden{display:none!important}
+@media(min-width:760px){.bottles{grid-template-columns:repeat(3,minmax(0,1fr))}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{padding:30px}.bottom{max-width:700px;margin:auto;border:1px solid #333;border-bottom:0;border-radius:14px 14px 0 0}.card{padding:17px}}
+@media(max-width:420px){main{padding:8px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:1fr}.logo{font-size:15px}.headerstats{font-size:10px}.row.mobile-stack{flex-direction:column;align-items:stretch}.bottles{grid-template-columns:repeat(2,minmax(0,1fr))}.bottle-art{height:82px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">馃嵒 PHUZA AUCTION</div>
+  <div class="headerstats">R<span id="headerBalance">0.00</span> demo 路 LVL <span id="headerLevel">1</span><br><span id="headerRefs">0</span> referrals</div>
+</header>
+<main>
+  <section id="homeView" class="view active">
+    <div class="hero">
+      <div style="font-size:40px">馃嵕馃弳</div>
+      <h1>PHUZA AUCTION</h1>
+      <p>Bid on listings, track demo rewards, invite friends and climb the weekly leaderboard.</p>
+      <span class="pill orange">DEMO MODE 路 NO REAL PAYMENTS</span>
+      <div class="row mobile-stack" style="margin-top:14px">
+        <button class="btn" onclick="navigate('auction')">馃敤 Browse Auctions</button>
+        <button class="btn purple" onclick="navigate('referrals')">馃懃 My Referral Code</button>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="statBalance">R0.00</b><span>Demo wallet</span></div>
+      <div class="stat"><b id="statRefs">0</b><span>Referrals</span></div>
+      <div class="stat"><b id="statLevel">Level 1</b><span>Referral level</span></div>
+      <div class="stat"><b id="statAuctions">0</b><span>Live auctions</span></div>
+    </div>
+    <div class="card leaderbox">
+      <div class="between"><h3 style="color:var(--gold);margin:0">馃弳 Weekly Leaderboard</h3><span class="pill">DEMO</span></div>
+      <p class="small">Example standings only. Prizes are not awarded by this static demo.</p>
+      <div id="homeLeaderboard"></div>
+      <button class="btn gold full" onclick="navigate('leaderboard')">View leaderboard</button>
+    </div>
+    <div class="section-title"><h2>馃敟 Live demo auctions</h2><button class="btn dark sm" onclick="navigate('auction')">View all 鈫�</button></div>
+    <div id="homeAuctions" class="bottles"></div>
+    <div class="grid">
+      <div class="portal"><div style="font-size:28px">馃洅</div><h3>Buyer portal</h3><p class="small">Browse listings and place demo bids.</p><button class="btn full" onclick="navigate('auction')">Enter buyer</button></div>
+      <div class="portal seller"><div style="font-size:28px">馃彧</div><h3>Seller portal</h3><p class="small">Create a local demo listing.</p><button class="btn cyan full" onclick="navigate('seller')">Enter seller</button></div>
+    </div>
+  </section>
+
+  <section id="auctionView" class="view">
+    <div class="section-title"><h1>馃敤 Auctions</h1><span class="pill orange">DEMO BIDDING</span></div>
+    <div class="notice">Demo only: bids are stored in this browser and are not shared with other visitors. No real sale or payment is processed.</div>
+    <div class="row"><input id="auctionSearch" placeholder="Search listings鈥�" oninput="renderAuctions()"><select id="auctionFilter" onchange="renderAuctions()" style="max-width:145px"><option value="all">All listings</option><option value="live">Live only</option></select></div>
+    <div id="auctionList" class="bottles"></div>
+    <div id="bidDetails" class="card hidden"></div>
+  </section>
+
+  <section id="referralsView" class="view">
+    <div class="section-title"><h1>馃懃 Referrals & levels</h1></div>
+    <div class="notice">Referral rewards shown here are simulated. This static site does not verify voucher payments or issue real commissions.</div>
+    <div class="card refbox">
+      <div class="between"><div><span class="small">Your demo referral code</span><h2 id="refCode" style="color:var(--purple);margin:4px 0">PHUZA-DEMO</h2></div><button class="btn purple sm" onclick="shareCode()">馃摛 Share</button></div>
+      <div class="levelbar" id="levelbar"></div>
+      <div class="stats">
+        <div class="stat"><b id="refTotal">0</b><span>Demo referrals</span></div>
+        <div class="stat"><b id="refEarned">R0</b><span>Demo earned</span></div>
+        <div class="stat"><b id="refRate">R5</b><span>Current rate</span></div>
+        <div class="stat"><b id="refNext">51</b><span>Next level at</span></div>
+      </div>
+      <p class="small" style="margin-top:12px">Level 1: 1鈥�50 referrals 路 R5/ref<br>Level 2: 51鈥�100 路 R9/ref<br>Level 3: 101鈥�200 路 R13/ref<br>Level 4: 201鈥�500 路 R15/ref<br>Level 5: 501+ 路 R20/ref</p>
+      <button class="btn dark full" onclick="copyCode()">馃搵 Copy referral code</button>
+      <button class="btn purple full" onclick="demoReferral()">锛� Add demo referral</button>
+      <div class="small" id="referralList" style="margin-top:10px">No demo referrals yet.</div>
+    </div>
+    <div class="card">
+      <h3>Apply a referral code</h3>
+      <label for="applyCode">Code from the person who invited you</label>
+      <input id="applyCode" placeholder="PHUZA-XXXX">
+      <button class="btn full" onclick="applyCode()">Apply demo code</button>
+      <p class="small" id="applyMsg"></p>
+    </div>
+  </section>
+
+  <section id="walletView" class="view">
+    <div class="section-title"><h1>馃挸 Demo wallet</h1></div>
+    <div class="notice red">No real funds are held here. Voucher PINs, bank account details, card details and passwords must never be entered into this demo.</div>
+    <div class="card wallet">
+      <span class="small">Browser-only simulated balance</span>
+      <h1 style="color:var(--green);font-size:34px;margin:5px 0">R<span id="walletBalance">0.00</span></h1>
+      <span class="small">Demo activity only 路 Not withdrawable</span>
+    </div>
+    <div class="card">
+      <h3>Simulate a demo credit</h3>
+      <p class="small">Use this to test the wallet display. It does not accept or verify vouchers.</p>
+      <div class="row"><select id="demoCreditAmount"><option value="50">R50 demo credit</option><option value="100">R100 demo credit</option><option value="200">R200 demo credit</option></select><button class="btn green" onclick="addDemoCredit()">Add demo credit</button></div>
+    </div>
+    <div class="card">
+      <h3>Simulate a withdrawal request</h3>
+      <label for="demoWithdrawAmount">Amount (R)</label><input id="demoWithdrawAmount" type="number" min="100" max="500" value="100">
+      <button class="btn red full" onclick="demoWithdraw()">Create demo request</button>
+      <p class="small" id="withdrawMsg">No real withdrawal will be sent.</p>
+    </div>
+    <div class="card"><h3>Wallet history</h3><div class="history" id="walletHistory">No activity yet.</div></div>
+  </section>
+
+  <section id="leaderboardView" class="view">
+    <div class="section-title"><h1>馃弳 Leaderboard</h1><span class="pill">SAMPLE DATA</span></div>
+    <div class="card leaderbox">
+      <h3 style="color:var(--gold)">Weekly demo rankings</h3>
+      <p class="small">These sample names and points are illustrative, not real users. No prize is promised or paid.</p>
+      <div id="fullLeaderboard"></div>
+      <button class="btn gold full" onclick="shareCode()">Invite friends</button>
+    </div>
+  </section>
+
+  <section id="sellerView" class="view">
+    <div class="section-title"><h1>馃彧 Seller portal</h1><span class="pill">LOCAL DEMO</span></div>
+    <div class="notice">Listings you create are saved only in this browser. They will not appear for other visitors.</div>
+    <div class="card">
+      <h3>Create a demo listing</h3>
+      <label for="listingTitle">Item name</label><input id="listingTitle" maxlength="60" placeholder="e.g. Premium bottle set">
+      <label for="listingCategory">Category</label><select id="listingCategory"><option>Drinks & accessories</option><option>Home & living</option><option>Electronics</option><option>Other</option></select>
+      <label for="listingPrice">Starting bid (R)</label><input id="listingPrice" type="number" min="1" max="100000" value="50">
+      <label for="listingEmoji">Listing icon</label><select id="listingEmoji"><option>馃嵕</option><option>馃</option><option>馃巵</option><option>馃摝</option><option>馃帶</option><option>馃獞</option></select>
+      <button class="btn cyan full" onclick="createListing()">Publish demo listing</button>
+    </div>
+    <div class="card"><h3>Your local demo listings</h3><div id="sellerListings" class="small">No listings created.</div></div>
+  </section>
+
+  <section id="adminView" class="view">
+    <div class="section-title"><h1>馃攼 Admin demo</h1><span class="pill orange">NOT SECURE AUTH</span></div>
+    <div class="notice red">This is a public static website. The demo gate below is not real authentication and must not protect sensitive data or real admin actions.</div>
+    <div id="adminLogin" class="card">
+      <h3>Open demo admin panel</h3><p class="small">No password is collected or stored. This only reveals local demo controls.</p>
+      <button class="btn full" onclick="showAdmin()">Enter demo admin</button>
+    </div>
+    <div id="adminPanel" class="hidden">
+      <div class="stats">
+        <div class="stat"><b id="adminUsers">1</b><span>Local profile</span></div>
+        <div class="stat"><b id="adminBids">0</b><span>Demo bids</span></div>
+        <div class="stat"><b id="adminListings">0</b><span>Listings</span></div>
+        <div class="stat"><b id="adminCredits">R0</b><span>Demo credits</span></div>
+      </div>
+      <div class="card"><h3>Demo settings</h3><label for="siteAnnouncement">Homepage announcement</label><textarea id="siteAnnouncement" rows="3" placeholder="Write a demo announcement鈥�"></textarea><button class="btn full" onclick="saveAnnouncement()">Save local announcement</button><p id="announcementMsg" class="small"></p></div>
+      <div class="card"><h3>Local data tools</h3><button class="btn dark full" onclick="exportData()">Export demo data (JSON)</button><button class="btn red full" onclick="resetDemo()">Reset all local demo data</button></div>
+      <div class="card"><h3>Latest local activity</h3><div id="adminActivity" class="history"></div></div>
+    </div>
+  </section>
+</main>
+
+<nav class="bottom" aria-label="Main navigation">
+  <button class="active" data-nav="home" onclick="navigate('home')">馃彔<br>Home</button>
+  <button data-nav="auction" onclick="navigate('auction')">馃敤<br>Auction</button>
+  <button data-nav="referrals" onclick="navigate('referrals')">馃懃<br>Referrals</button>
+  <button data-nav="wallet" onclick="navigate('wallet')">馃挸<br>Wallet</button>
+  <button data-nav="admin" onclick="navigate('admin')">馃攼<br>Admin</button>
+</nav>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<div id="levelModal" class="overlay" role="dialog" aria-modal="true" aria-labelledby="levelTitle">
+  <div class="modal"><div style="font-size:48px">馃帀</div><h2 id="levelTitle" style="color:var(--gold)">LEVEL UP!</h2><p id="levelDesc">New demo level reached.</p><button class="btn purple full" onclick="closeLevelModal()">Continue</button></div>
+</div>
+<script>
+'use strict';
+const STORE_KEY='phuzaAuctionDemo_v1';
+const LEVELS=[
+ {min:0,max:50,rate:5,label:'Level 1'},
+ {min:51,max:100,rate:9,label:'Level 2'},
+ {min:101,max:200,rate:13,label:'Level 3'},
+ {min:201,max:500,rate:15,label:'Level 4'},
+ {min:501,max:Infinity,rate:20,label:'Level 5'}
+];
+const sampleListings=[
+ {id:'sample-1',title:'Premium Bottle Display',category:'Drinks & accessories',emoji:'馃嵕',start:50,bid:50,bids:[],status:'live',owner:'PHUZA'},
+ {id:'sample-2',title:'Whisky Glass Set',category:'Drinks & accessories',emoji:'馃',start:80,bid:80,bids:[],status:'live',owner:'PHUZA'},
+ {id:'sample-3',title:'Gift Hamper',category:'Other',emoji:'馃巵',start:120,bid:120,bids:[],status:'live',owner:'PHUZA'},
+ {id:'sample-4',title:'Home Bar Accessory',category:'Home & living',emoji:'馃摝',start:100,bid:100,bids:[],status:'live',owner:'PHUZA'}
+];
+function freshState(){return {balance:0,refs:0,earned:0,referrals:[],refCode:'PHUZA-'+Math.random().toString(36).slice(2,6).toUpperCase(),appliedCode:'',walletHistory:[],listings:sampleListings.map(x=>({...x,bids:[]})),activity:[],announcement:'',withdrawUsed:0}}
+function loadState(){try{const raw=localStorage.getItem(STORE_KEY);if(!raw)return freshState();const x=JSON.parse(raw);const d=freshState();return {...d,...x,listings:Array.isArray(x.listings)?x.listings:d.listings,walletHistory:Array.isArray(x.walletHistory)?x.walletHistory:[],referrals:Array.isArray(x.referrals)?x.referrals:[],activity:Array.isArray(x.activity)?x.activity:[]}}catch(e){return freshState()}}
+let state=loadState();
+function save(){try{localStorage.setItem(STORE_KEY,JSON.stringify(state))}catch(e){toast('Browser storage is unavailable; data may not persist.')}}
+function money(n){return Number(n||0).toLocaleString('en-ZA',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function currentLevel(refs=state.refs){let idx=0;LEVELS.forEach((l,i)=>{if(refs>=l.min)idx=i});return idx}
+function levelRate(refs=state.refs){return LEVELS[currentLevel(refs)].rate}
+function nextLevelAt(refs=state.refs){const next=LEVELS.find(l=>l.min>refs);return next?next.min:'MAX'}
+function logActivity(text){state.activity.unshift({text,at:new Date().toLocaleString()});state.activity=state.activity.slice(0,50)}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove('show'),2600)}
+function navigate(name){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));const el=document.getElementById(name+'View');if(el)el.classList.add('active');document.querySelectorAll('[data-nav]').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));renderAll();window.scrollTo({top:0,behavior:'smooth'})}
+function renderAll(){renderHeader();renderStats();renderLeaderboard();renderAuctions();renderReferrals();renderWallet();renderSeller();renderAdmin();renderAnnouncement()}
+function renderHeader(){document.getElementById('headerBalance').textContent=money(state.balance);document.getElementById('headerLevel').textContent=currentLevel()+1;document.getElementById('headerRefs').textContent=state.refs}
+function renderStats(){document.getElementById('statBalance').textContent='R'+money(state.balance);document.getElementById('statRefs').textContent=state.refs;document.getElementById('statLevel').textContent='Level '+(currentLevel()+1);document.getElementById('statAuctions').textContent=state.listings.filter(x=>x.status==='live').length}
+function safe(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function auctionCard(x){return `<article class="bottle"><div class="bottle-art">${safe(x.emoji||'馃摝')}</div><span class="pill ${x.status==='live'?'green':''}">${x.status==='live'?'LIVE DEMO':'ENDED'}</span><h3 style="margin:8px 0 4px">${safe(x.title)}</h3><div class="small">${safe(x.category||'Other')}</div><p style="color:var(--orange);font-weight:900;font-size:20px;margin:8px 0">R${money(x.bid)}</p><div class="small">${x.bids.length} demo bid(s) 路 Seller: ${safe(x.owner||'Seller')}</div><button class="btn full" ${x.status!=='live'?'disabled':''} onclick="placeBid('${safe(x.id)}')">Place demo bid</button><button class="btn dark full" onclick="showBidHistory('${safe(x.id)}')">Bid history</button></article>`}
+function renderAuctions(){const q=(document.getElementById('auctionSearch')?.value||'').toLowerCase();const filter=document.getElementById('auctionFilter')?.value||'all';const arr=state.listings.filter(x=>(!q||x.title.toLowerCase().includes(q)||x.category.toLowerCase().includes(q))&&(filter==='all'||x.status==='live'));const html=arr.length?arr.map(auctionCard).join(''):'<div class="card">No listings match your search.</div>';const list=document.getElementById('auctionList');if(list)list.innerHTML=html;const home=document.getElementById('homeAuctions');if(home)home.innerHTML=state.listings.filter(x=>x.status==='live').slice(0,2).map(auctionCard).join('')||'<p class="small">No live demo listings.</p>'}
+function placeBid(id){const item=state.listings.find(x=>x.id===id);if(!item||item.status!=='live')return toast('This demo auction is not live.');const next=Math.ceil((Number(item.bid)||0)+5);const val=prompt(`Demo bid for ${item.title}. Current bid R${money(item.bid)}. Minimum next bid: R${money(next)}. Enter your bid amount:`);if(val===null)return;const amount=Number(val);if(!Number.isFinite(amount)||amount<next||amount>10000000)return toast('Enter a valid bid of at least R'+money(next)+'.');item.bid=amount;item.bids.unshift({amount,user:'You (demo)',at:new Date().toLocaleString()});logActivity(`Demo bid R${money(amount)} on ${item.title}`);save();renderAll();toast('Demo bid recorded in this browser.')}
+function showBidHistory(id){const x=state.listings.find(i=>i.id===id);const box=document.getElementById('bidDetails');if(!x||!box)return;box.classList.remove('hidden');box.innerHTML=`<div class="between"><h3>${safe(x.title)} 鈥� bid history</h3><button class="btn dark sm" onclick="document.getElementById('bidDetails').classList.add('hidden')">Close</button></div><div class="bid-list">${x.bids.length?x.bids.map(b=>`<div class="listrow"><span>${safe(b.user)}<br><span class="tiny">${safe(b.at)}</span></span><b>R${money(b.amount)}</b></div>`).join(''):'<p class="small">No bids yet.</p>'}</div>`;box.scrollIntoView({behavior:'smooth',block:'start'})}
+function renderReferrals(){const idx=currentLevel();const level=LEVELS[idx];const code=state.refCode;['refCode'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=code});document.getElementById('refTotal').textContent=state.refs;document.getElementById('refEarned').textContent='R'+money(state.earned);document.getElementById('refRate').textContent='R'+level.rate;document.getElementById('refNext').textContent=nextLevelAt();const bar=document.getElementById('levelbar');bar.innerHTML=LEVELS.map((l,i)=>`<div class="segment ${i<idx?'on':''} ${i===idx?'current':''}" title="${l.label}"></div>`).join('');document.getElementById('referralList').innerHTML=state.referrals.length?state.referrals.map((r,i)=>`<div class="listrow"><span>${safe(r.name)}<br><span class="tiny">${safe(r.date)}</span></span><span class="pill green">Demo</span></div>`).join(''):'No demo referrals yet.'}
+function demoReferral(){const before=currentLevel();state.refs+=1;const rate=levelRate(state.refs);state.earned+=rate;state.referrals.unshift({name:'Demo friend '+state.refs,date:new Date().toLocaleString()});state.walletHistory.unshift({text:`Simulated referral reward`,amount:rate,at:new Date().toLocaleString()});logActivity('Added demo referral; simulated reward R'+rate);save();renderAll();if(currentLevel()>before){const l=LEVELS[currentLevel()];document.getElementById('levelTitle').textContent='馃帀 '+l.label+' unlocked!';document.getElementById('levelDesc').textContent=`Demo rate is now R${l.rate} per referral. This is a simulation only.`;document.getElementById('levelModal').classList.add('show')}else toast('Demo referral added. Simulated reward R'+rate)}
+function closeLevelModal(){document.getElementById('levelModal').classList.remove('show')}
+function shareCode(){const msg=`Join PHUZA AUCTION with my demo referral code ${state.refCode}. This is a demo site; no real rewards or payments are processed.`;if(navigator.share){navigator.share({title:'PHUZA AUCTION',text:msg}).catch(()=>{})}else if(navigator.clipboard){navigator.clipboard.writeText(msg).then(()=>toast('Demo invite copied.')).catch(()=>prompt('Copy invite text:',msg))}else prompt('Copy invite text:',msg)}
+function copyCode(){const text=state.refCode;if(navigator.clipboard)navigator.clipboard.writeText(text).then(()=>toast('Referral code copied.')).catch(()=>prompt('Copy your code:',text));else prompt('Copy your code:',text)}
+function applyCode(){const code=document.getElementById('applyCode').value.trim().toUpperCase();const msg=document.getElementById('applyMsg');if(!/^PHUZA-[A-Z0-9]{4}$/.test(code)){msg.textContent='Enter a code in PHUZA-XXXX format.';return}if(code===state.refCode){msg.textContent='You cannot apply your own code.';return}if(state.appliedCode){msg.textContent='A demo referral code has already been applied.';return}state.appliedCode=code;logActivity('Applied demo referral code '+code);save();msg.textContent='Demo code applied locally. No reward or referral relationship is verified.';toast('Demo code saved.')}
+function renderWallet(){document.getElementById('walletBalance').textContent=money(state.balance);const el=document.getElementById('walletHistory');el.innerHTML=state.walletHistory.length?state.walletHistory.map(x=>`<div class="listrow"><span>${safe(x.text)}<br><span class="tiny">${safe(x.at)}</span></span><b>${x.amount>=0?'+':''}R${money(x.amount)}</b></div>`).join(''):'No activity yet.'}
+function addDemoCredit(){const amount=Number(document.getElementById('demoCreditAmount').value);if(![50,100,200].includes(amount))return;state.balance+=amount;state.walletHistory.unshift({text:'Simulated demo credit 鈥� not a payment',amount,at:new Date().toLocaleString()});logActivity('Simulated wallet credit R'+amount);save();renderAll();toast('Demo credit added. No money was received.')}
+function demoWithdraw(){const amount=Number(document.getElementById('demoWithdrawAmount').value);const msg=document.getElementById('withdrawMsg');if(!Number.isFinite(amount)||amount<100||amount>500){msg.textContent='For the demo, enter an amount between R100 and R500.';return}if(amount>state.balance){msg.textContent='Insufficient demo balance.';return}state.balance-=amount;state.withdrawUsed+=amount;state.walletHistory.unshift({text:'Simulated withdrawal request 鈥� not sent',amount:-amount,at:new Date().toLocaleString()});logActivity('Simulated withdrawal request R'+amount);save();renderAll();msg.textContent='Demo request recorded locally. No withdrawal was sent.';toast('Demo request saved.')}
+function renderLeaderboard(){const demo=[{name:'BottleKing (sample)',points:420,rank:1},{name:'PhuzaQueen (sample)',points:350,rank:2},{name:'SipAndWin (sample)',points:275,rank:3},{name:'You (demo)',points:state.refs*10,rank:4}];const html=demo.map(x=>`<div class="leader-row"><span><b>${x.rank}. ${safe(x.name)}</b><br><span class="tiny">Demo referral points</span></span><b style="color:var(--gold)">${x.points}</b></div>`).join('');document.getElementById('homeLeaderboard').innerHTML=html;document.getElementById('fullLeaderboard').innerHTML=html}
+function createListing(){const title=document.getElementById('listingTitle').value.trim();const price=Number(document.getElementById('listingPrice').value);if(title.length<3)return toast('Enter a listing name (at least 3 characters).');if(!Number.isFinite(price)||price<1||price>100000)return toast('Enter a valid starting bid.');const x={id:'local-'+Date.now(),title,category:document.getElementById('listingCategory').value,emoji:document.getElementById('listingEmoji').value,start:price,bid:price,bids:[],status:'live',owner:'You (demo)'};state.listings.unshift(x);document.getElementById('listingTitle').value='';logActivity('Created demo listing '+title);save();renderAll();toast('Demo listing published in this browser.')}
+function renderSeller(){const el=document.getElementById('sellerListings');const own=state.listings.filter(x=>x.owner==='You (demo)');el.innerHTML=own.length?own.map(x=>`<div class="listrow"><span>${safe(x.emoji)} ${safe(x.title)}</span><button class="btn dark sm" onclick="endListing('${safe(x.id)}')">End listing</button></div>`).join(''):'No listings created.'}
+function endListing(id){const x=state.listings.find(a=>a.id===id);if(!x)return;x.status='ended';logActivity('Ended demo listing '+x.title);save();renderAll();toast('Demo listing ended.')}
+function showAdmin(){document.getElementById('adminLogin').classList.add('hidden');document.getElementById('adminPanel').classList.remove('hidden');renderAdmin();toast('Demo controls opened; no authentication was performed.')}
+function renderAdmin(){const set=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val};set('adminUsers','1');set('adminBids',state.listings.reduce((n,x)=>n+x.bids.length,0));set('adminListings',state.listings.length);set('adminCredits','R'+money(state.balance));const a=document.getElementById('adminActivity');if(a)a.innerHTML=state.activity.length?state.activity.map(x=>`<div class="listrow"><span>${safe(x.text)}</span><span class="tiny">${safe(x.at)}</span></div>`).join(''):'No local activity yet.';const ann=document.getElementById('siteAnnouncement');if(ann&&ann.value===''&&state.announcement)ann.value=state.announcement}
+function saveAnnouncement(){state.announcement=document.getElementById('siteAnnouncement').value.trim();logActivity('Updated local demo announcement');save();renderAnnouncement();document.getElementById('announcementMsg').textContent='Saved in this browser only.'}
+function renderAnnouncement(){let old=document.getElementById('announcementBanner');if(old)old.remove();if(state.announcement){const b=document.createElement('div');b.id='announcementBanner';b.className='notice';b.textContent='馃摚 '+state.announcement;document.querySelector('#homeView .hero').after(b)}}
+function exportData(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='phuza-demo-data.json';a.click();URL.revokeObjectURL(url);toast('Demo data export prepared.')}
+function resetDemo(){if(!confirm('Reset all PHUZA demo data saved in this browser? This cannot be undone.'))return;state=freshState();save();document.getElementById('adminPanel').classList.add('hidden');document.getElementById('adminLogin').classList.remove('hidden');renderAll();toast('Local demo data reset.')}
+renderAll();
+</script>
+</body>
+</html>
